@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=merge_lanes_fast_move
-#SBATCH --output=/group/sbms004/yxia/GUT/logs/merge_lanes_fast_move_%j.out
-#SBATCH --error=/group/sbms004/yxia/GUT/logs/merge_lanes_fast_move_%j.err
+#SBATCH --job-name=merge_lanes_array
+#SBATCH --output=/group/sbms004/yxia/GUT/logs/merge_lanes_%A_%a.out
+#SBATCH --error=/group/sbms004/yxia/GUT/logs/merge_lanes_%A_%a.err
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=32
-#SBATCH --mem=32G
-#SBATCH --time=3-00:00:00
+#SBATCH --cpus-per-task=3
+#SBATCH --mem=8G
+#SBATCH --time=12:00:00
+#SBATCH --array=1-300
 
 source activate gut
 
@@ -16,65 +17,56 @@ shopt -s nullglob
 # ─── CONFIG ─────────────────────────────────────────────────────────────
 INPUT_DIR="/group/sbms004/yxia/GUT/AGRF_download"
 OUTPUT_DIR="/group/sbms004/yxia/GUT/merged_fastq"
-RAW_BACKUP_DIR="/group/sbms004/yxia/GUT/raw_moved_after_successful_merge"
+LOG_DIR="/group/sbms004/yxia/GUT/logs"
 
-SAMPLES_PER_RUN=19
-PARALLEL_JOBS=19
-
-# 1 = only print what would be moved
-# 0 = actually move raw files to backup
-DRY_RUN="${DRY_RUN:-0}"
+THREADS="${SLURM_CPUS_PER_TASK:-4}"
 # ───────────────────────────────────────────────────────────────────────
 
 mkdir -p "$OUTPUT_DIR"
-mkdir -p "$RAW_BACKUP_DIR"
-mkdir -p /group/sbms004/yxia/GUT/logs
+mkdir -p "$LOG_DIR"
 
 echo "=========================================="
-echo "Fast merge + move script"
+echo "Merge lanes array job"
 echo "Input dir: $INPUT_DIR"
 echo "Output dir: $OUTPUT_DIR"
-echo "Raw backup dir: $RAW_BACKUP_DIR"
-echo "Samples per run: $SAMPLES_PER_RUN"
-echo "Parallel jobs: $PARALLEL_JOBS"
-echo "DRY_RUN: $DRY_RUN"
+echo "SLURM_ARRAY_TASK_ID: ${SLURM_ARRAY_TASK_ID}"
+echo "Threads per sample: $THREADS"
+echo "Original raw files will NOT be moved or deleted."
 echo "=========================================="
 
-if [[ "$DRY_RUN" == "1" ]]; then
-    echo "DRY_RUN=1: raw files will NOT be moved."
-else
-    echo "DRY_RUN=0: raw files will be moved to backup after successful merge."
-fi
+# ─── Build sample list ─────────────────────────────────────────────────
+# Example filename:
+#   RMFT001_3521_xxx_L001_R1.fastq.gz
+#
+# Sample ID:
+#   RMFT001_3521
 
-# ─── Get current remaining sample names from INPUT_DIR ─────────────────
-# Important:
-# After first batch, INPUT_DIR has changed.
-# This script always takes the first 19 samples currently remaining.
 mapfile -t ALL_SAMPLES < <(
     for f in "$INPUT_DIR"/*_R1.fastq.gz; do
-        basename "$f" | cut -d'_' -f1
+        basename "$f" | awk -F'_' '{print $1"_"$2}'
     done | sort -u
 )
 
 TOTAL_SAMPLES=${#ALL_SAMPLES[@]}
 
-echo "Remaining samples found in INPUT_DIR: $TOTAL_SAMPLES"
+echo "Total samples found: $TOTAL_SAMPLES"
 
 if (( TOTAL_SAMPLES == 0 )); then
-    echo "No remaining R1 files found in $INPUT_DIR"
+    echo "No R1 files found in $INPUT_DIR"
+    exit 0
+fi
+
+TASK_ID="${SLURM_ARRAY_TASK_ID}"
+
+if (( TASK_ID > TOTAL_SAMPLES )); then
+    echo "Array task $TASK_ID is greater than total samples $TOTAL_SAMPLES"
     echo "Nothing to do."
     exit 0
 fi
 
-mapfile -t SAMPLES < <(
-    printf "%s\n" "${ALL_SAMPLES[@]}" |
-    head -n "$SAMPLES_PER_RUN"
-)
+sample="${ALL_SAMPLES[$((TASK_ID - 1))]}"
 
-echo "Samples selected for this run:"
-printf "%s\n" "${SAMPLES[@]}"
-
-export INPUT_DIR OUTPUT_DIR RAW_BACKUP_DIR DRY_RUN
+echo "Selected sample: $sample"
 
 check_sample_id_match() {
     local sample="$1"
@@ -86,7 +78,7 @@ check_sample_id_match() {
 
     for f in "$@"; do
         base="$(basename "$f")"
-        detected_sample="$(echo "$base" | cut -d'_' -f1)"
+        detected_sample="$(echo "$base" | awk -F'_' '{print $1"_"$2}')"
 
         if [[ "$detected_sample" != "$sample" ]]; then
             echo "ERROR: Sample ID mismatch!"
@@ -105,8 +97,6 @@ check_sample_id_match() {
     done
 }
 
-export -f check_sample_id_match
-
 merge_sample() {
     local sample="$1"
 
@@ -124,7 +114,6 @@ merge_sample() {
     local r1_tmp="${r1_out}.tmp"
     local r2_tmp="${r2_out}.tmp"
 
-    # ─── Check 1: R1/R2 must both exist ────────────────────────────────
     if (( ${#r1_lanes[@]} == 0 )); then
         echo "ERROR: No R1 files found for sample: $sample"
         return 1
@@ -135,7 +124,6 @@ merge_sample() {
         return 1
     fi
 
-    # ─── Check 2: R1/R2 lane count must match ─────────────────────────
     if (( ${#r1_lanes[@]} != ${#r2_lanes[@]} )); then
         echo "ERROR: R1/R2 lane count mismatch for sample: $sample"
         echo "R1 files: ${#r1_lanes[@]}"
@@ -145,31 +133,36 @@ merge_sample() {
         return 1
     fi
 
-    # ─── Check 3: sample ID must match exactly before merge ────────────
     check_sample_id_match "$sample" "${r1_lanes[@]}" "${r2_lanes[@]}"
 
-    # ─── Check 4: do not overwrite existing outputs ───────────────────
+    if [[ -s "$r1_out" && -s "$r2_out" ]]; then
+        echo "[$(date '+%F %T')] Output already exists for sample: $sample"
+        echo "Existing R1: $r1_out"
+        echo "Existing R2: $r2_out"
+        echo "Skipping sample."
+        return 0
+    fi
+
     if [[ -e "$r1_out" || -e "$r2_out" ]]; then
-        echo "ERROR: Output already exists for sample: $sample"
-        [[ -e "$r1_out" ]] && echo "Existing: $r1_out"
-        [[ -e "$r2_out" ]] && echo "Existing: $r2_out"
-        echo "Raw files will NOT be moved."
+        echo "ERROR: Only one output exists or one output is empty for sample: $sample"
+        [[ -e "$r1_out" ]] && echo "Existing R1: $r1_out"
+        [[ -e "$r2_out" ]] && echo "Existing R2: $r2_out"
+        echo "Please check manually before rerunning."
         return 1
     fi
 
     rm -f "$r1_tmp" "$r2_tmp"
 
-    echo "[$(date '+%F %T')] R1 input files for $sample:"
+    echo "[$(date '+%F %T')] R1 input files:"
     printf '  %s\n' "${r1_lanes[@]}"
 
-    echo "[$(date '+%F %T')] R2 input files for $sample:"
+    echo "[$(date '+%F %T')] R2 input files:"
     printf '  %s\n' "${r2_lanes[@]}"
 
-    # ─── Merge R1 ─────────────────────────────────────────────────────
     echo "[$(date '+%F %T')] Merging R1 for sample: $sample"
 
     if command -v pigz >/dev/null 2>&1; then
-        if ! zcat "${r1_lanes[@]}" | pigz -p 1 > "$r1_tmp"; then
+        if ! zcat "${r1_lanes[@]}" | pigz -p "$THREADS" > "$r1_tmp"; then
             echo "ERROR: R1 merge failed for sample: $sample"
             rm -f "$r1_tmp" "$r2_tmp"
             return 1
@@ -182,11 +175,10 @@ merge_sample() {
         fi
     fi
 
-    # ─── Merge R2 ─────────────────────────────────────────────────────
     echo "[$(date '+%F %T')] Merging R2 for sample: $sample"
 
     if command -v pigz >/dev/null 2>&1; then
-        if ! zcat "${r2_lanes[@]}" | pigz -p 1 > "$r2_tmp"; then
+        if ! zcat "${r2_lanes[@]}" | pigz -p "$THREADS" > "$r2_tmp"; then
             echo "ERROR: R2 merge failed for sample: $sample"
             rm -f "$r1_tmp" "$r2_tmp"
             return 1
@@ -199,7 +191,6 @@ merge_sample() {
         fi
     fi
 
-    # ─── Check 5: tmp outputs must not be empty ───────────────────────
     if [[ ! -s "$r1_tmp" ]]; then
         echo "ERROR: R1 tmp output is empty for sample: $sample"
         rm -f "$r1_tmp" "$r2_tmp"
@@ -212,7 +203,20 @@ merge_sample() {
         return 1
     fi
 
-    # ─── Move tmp files to final outputs ──────────────────────────────
+    echo "[$(date '+%F %T')] Checking gzip integrity"
+
+    if ! gzip -t "$r1_tmp"; then
+        echo "ERROR: R1 tmp gzip check failed for sample: $sample"
+        rm -f "$r1_tmp" "$r2_tmp"
+        return 1
+    fi
+
+    if ! gzip -t "$r2_tmp"; then
+        echo "ERROR: R2 tmp gzip check failed for sample: $sample"
+        rm -f "$r1_tmp" "$r2_tmp"
+        return 1
+    fi
+
     mv "$r1_tmp" "$r1_out"
     mv "$r2_tmp" "$r2_out"
 
@@ -224,37 +228,11 @@ merge_sample() {
     echo "[$(date '+%F %T')] Merge successful for sample: $sample"
     echo "Final R1: $r1_out"
     echo "Final R2: $r2_out"
-
-    # ─── Final sample ID check before moving raw files ────────────────
-    check_sample_id_match "$sample" "${r1_lanes[@]}" "${r2_lanes[@]}"
-
-    # ─── Move raw files only after BOTH R1 and R2 succeeded ───────────
-    local sample_backup_dir="$RAW_BACKUP_DIR/$sample"
-    mkdir -p "$sample_backup_dir"
-
-    if [[ "$DRY_RUN" == "1" ]]; then
-        echo "[$(date '+%F %T')] DRY_RUN=1: raw files will NOT be moved."
-        echo "Files that would be moved:"
-        printf '  %s\n' "${r1_lanes[@]}" "${r2_lanes[@]}"
-    else
-        echo "[$(date '+%F %T')] Moving raw files to:"
-        echo "$sample_backup_dir"
-
-        mv "${r1_lanes[@]}" "${r2_lanes[@]}" "$sample_backup_dir/"
-
-        echo "[$(date '+%F %T')] Raw files moved safely for sample: $sample"
-    fi
-
-    echo "[$(date '+%F %T')] Finished sample: $sample"
+    echo "Original raw files kept in: $INPUT_DIR"
 }
 
-export -f merge_sample
-
-# ─── Run selected 19 remaining samples in parallel ─────────────────────
-printf "%s\n" "${SAMPLES[@]}" | xargs -P "$PARALLEL_JOBS" -I {} bash -c 'merge_sample "$@"' _ {}
+merge_sample "$sample"
 
 echo "=========================================="
-echo "✅ Done! This batch completed."
-echo "Merged files are in: $OUTPUT_DIR"
-echo "Raw backup folder: $RAW_BACKUP_DIR"
+echo "Done."
 echo "=========================================="

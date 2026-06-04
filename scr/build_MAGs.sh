@@ -6,15 +6,15 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=64
-#SBATCH --mem=128G
-#SBATCH --array=1-30
+#SBATCH --mem=256G
+#SBATCH --array=1-300
 
 set -eo pipefail
 
 # -------- PATHS --------
 INPUT_DIR="/group/sbms004/yxia/GUT/cleaned_fastq"
 SAMPLE_LIST_DIR="/group/sbms004/yxia/GUT/sample_list"
-PROJECT_ROOT="/group/sbms004/yxia/GUT/SqueezeMeta_projects"
+PROJECT_ROOT="/group/sbms004/yxia/GUT/MAG_per_sample"
 GTDBTK_DB="/group/sbms004/yxia/GUT/db/release232/release232"
 LOG_DIR="/group/sbms004/yxia/GUT/logs"
 # -----------------------

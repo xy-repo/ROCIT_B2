@@ -9,7 +9,7 @@ output_root = "/group/sbms004/yxia/GUT/sample_list"
 input_dir   = "/group/sbms004/yxia/GUT/cleaned_fastq"
 out_prefix  = "sample_list"
 samples_per_group = 1
-max_groups = 29
+max_groups = 300
 # --------------------------------
 
 os.makedirs(output_root, exist_ok=True)

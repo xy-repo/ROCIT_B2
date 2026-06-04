@@ -1,0 +1,2 @@
+RFMT_ID	status	compare_file	n_compare_rows	n_compare_genomes	n_metadata_samples	n_bintables_found	n_bintables_missing	n_bad_bintables	n_bintable_genomes	n_matched_genomes	match_rate_vs_compare_percent
+RFMT015	ok	/group/sbms004/yxia/GUT/inStrain_final/RFMT015/compare_out_with_stb/output/compare_out_with_stb_genomeWide_compare.tsv	522	145	5	4	1	0	169	145	100.0

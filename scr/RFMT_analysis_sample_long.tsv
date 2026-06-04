@@ -1,0 +1,94 @@
+RFMT_ID	sample_id	sample_name_expected	role	source_column	donor_wave	analysis_phase	raw_metadata_value	date_or_note	metadata_note	duplicate_sample_id_in_RFMT	duplicate_roles
+RFMT013	5430	RFMT013_5430	donor1	DNR#1	donor1	donor	5430 12/2/25	12/2/25		no	
+RFMT013	5431	RFMT013_5431	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5431 12/2/25	12/2/25		no	
+RFMT013	5432	RFMT013_5432	recipient_d2	Recipient D2	donor2	recipient_post_donor2	5432 14/2/25	14/2/25		no	
+RFMT013	5433	RFMT013_5433	recipient_d5	Recipient D5	donor2	recipient_post_donor2	5433 17/2/25	17/2/25		no	
+RFMT015	5423	RFMT015_5423	donor1	DNR#1	donor1	donor	5423 28/2/25	28/2/25	Not expected	no	
+RFMT015	5426	RFMT015_5426	recipient_d2	Recipient D2	donor2	recipient_post_donor2	5426 2/3/25	2/3/25	Not expected	no	
+RFMT015	5427	RFMT015_5427	recipient_d5	Recipient D5	donor2	recipient_post_donor2	5427 5/3/25	5/3/25	Not expected	no	
+RFMT015	5425	RFMT015_5425	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5425 28/2/25 	28/2/25		no	
+RFMT016	5418	RFMT016_5418	donor1	DNR#1	donor1	donor	5418 13/3/25	13/3/25		no	
+RFMT016	5419	RFMT016_5419	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5419 13/3/25	13/3/25		no	
+RFMT016	5420	RFMT016_5420	recipient_d2	Recipient D2	donor2	recipient_post_donor2	5420 15/3/25	15/3/25		no	
+RFMT016	5421	RFMT016_5421	recipient_d5	Recipient D5	donor2	recipient_post_donor2	5421 19/3/25	19/3/25		no	
+RFMT016	5422	RFMT016_5422	recipient_d7	Recipient D7	donor2	recipient_post_donor2	5422 20/3/25	20/3/25		no	
+RFMT017	5415	RFMT017_5415	donor1	DNR#1	donor1	donor	5415 27/3/25	27/3/25		no	
+RFMT017	5414	RFMT017_5414	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5414 27/3/25	27/3/25		no	
+RFMT017	5416	RFMT017_5416	recipient_d7	Recipient D7	donor2	recipient_post_donor2	5416 3/4/25 *	3/4/25; *		no	
+RFMT017	5417	RFMT017_5417	recipient_d7	Recipient D7	donor2	recipient_post_donor2	5417 3/4/25	3/4/25		no	
+RFMT017	5406	RFMT017_5406	recipient_d7	Recipient D7	donor2	recipient_post_donor2	"5406 8/4/25 (""D12"")"	"8/4/25; (""D12"")"		no	
+RFMT018	5411	RFMT018_5411	donor1	DNR#1	donor1	donor	5411 27/3/25	27/3/25		no	
+RFMT018	5412	RFMT018_5412	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5412 27/3/25	27/3/25		no	
+RFMT018	5410	RFMT018_5410	recipient_d2	Recipient D2	donor2	recipient_post_donor2	5410 29/3/25	29/3/25		no	
+RFMT018	5409	RFMT018_5409	recipient_d5	Recipient D5	donor2	recipient_post_donor2	5409 1/4/25	1/4/25		no	
+RFMT018	5408	RFMT018_5408	recipient_d7	Recipient D7	donor2	recipient_post_donor2	5408 ???	???		no	
+RFMT019	5403	RFMT019_5403	donor1	DNR#1	donor1	donor	5403 12/4/25	12/4/25		no	
+RFMT019	5405	RFMT019_5405	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5405 11/4/25	11/4/25		yes	recipient_d0;recipient_d5
+RFMT019	5402	RFMT019_5402	recipient_d2	Recipient D2	donor2	recipient_post_donor2	5402 14/4/25	14/4/25		no	
+RFMT019	5405	RFMT019_5405	recipient_d5	Recipient D5	donor2	recipient_post_donor2	5405 17/4/25	17/4/25		yes	recipient_d0;recipient_d5
+RFMT020	5398	RFMT020_5398	donor1	DNR#1	donor1	donor	5398 16/5/25	16/5/25		no	
+RFMT020	5401	RFMT020_5401	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5401 16/5/25	16/5/25		no	
+RFMT020	5395	RFMT020_5395	donor2	DNR#2	donor2	donor	5395 20/5/25	20/5/25		no	
+RFMT020	5413	RFMT020_5413	recipient_pre_donor2	Recipient pre-DNR#2	donor2	recipient_baseline_donor2	"5413 ""D4"""	"""D4"""		no	
+RFMT020	5382	RFMT020_5382	recipient_d2	Recipient D2	donor2	recipient_post_donor2	5382 22/5/25	22/5/25		no	
+RFMT020	5397	RFMT020_5397	recipient_d5	Recipient D5	donor2	recipient_post_donor2	5397 25/5/25	25/5/25		no	
+RFMT020	5396	RFMT020_5396	recipient_d7	Recipient D7	donor2	recipient_post_donor2	5396 27/5/25	27/5/25		no	
+RFMT020	5399	RFMT020_5399	recipient_pre_donor2	Recipient pre-DNR#2	donor2	recipient_baseline_donor2	5399 ??? (labelled 16/5)	???		no	
+RFMT020	5400	RFMT020_5400	recipient_d5	Recipient D5	donor2	recipient_post_donor2	5400 25/5/25	25/5/25		no	
+RFMT021	5387	RFMT021_5387	donor1	DNR#1	donor1	donor	5387 20/5/25	20/5/25		no	
+RFMT021	5393	RFMT021_5393	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5393 20/5/25	20/5/25		no	
+RFMT021	5385	RFMT021_5385	donor2	DNR#2	donor2	donor	5385 23/5/25	23/5/25		no	
+RFMT021	5388	RFMT021_5388	recipient_pre_donor2	Recipient pre-DNR#2	donor2	recipient_baseline_donor2	5388 23/5/25	23/5/25		no	
+RFMT021	5394	RFMT021_5394	recipient_d2	Recipient D2	donor2	recipient_post_donor2	5394 25/5/25	25/5/25		no	
+RFMT021	5389	RFMT021_5389	recipient_d5	Recipient D5	donor2	recipient_post_donor2	5389 28/5/25	28/5/25		no	
+RFMT021	5391	RFMT021_5391	recipient_d7	Recipient D7	donor2	recipient_post_donor2	5391 30/5/25	30/5/25		no	
+RFMT021	5407	RFMT021_5407	recipient_pre_donor2	Recipient pre-DNR#2	donor2	recipient_baseline_donor2	5407 22/5/25	22/5/25		no	
+RFMT022	5463	RFMT022_5463	donor1	DNR#1	donor1	donor	5463 10/7/25	10/7/25		no	
+RFMT022	5456	RFMT022_5456	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5456 10/7/25	10/7/25		no	
+RFMT022	5458	RFMT022_5458	donor2	DNR#2	donor2	donor	5458 13/7/25	13/7/25		no	
+RFMT022	5461	RFMT022_5461	recipient_d2	Recipient D2	donor2	recipient_post_donor2	5461 15/7/25	15/7/25		no	
+RFMT022	5462	RFMT022_5462	recipient_d5	Recipient D5	donor2	recipient_post_donor2	5462 18/7/25	18/7/25		no	
+RFMT022	5457	RFMT022_5457	recipient_d7	Recipient D7	donor2	recipient_post_donor2	5457 20/7/25	20/7/25		no	
+RFMT023	5450	RFMT023_5450	donor1	DNR#1	donor1	donor	5450 24/7/25	24/7/25		no	
+RFMT023	5452	RFMT023_5452	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5452 23/7/25	23/7/25		no	
+RFMT023	5453	RFMT023_5453	donor2	DNR#2	donor2	donor	5453 26/7/25	26/7/25		no	
+RFMT023	5449	RFMT023_5449	recipient_pre_donor2	Recipient pre-DNR#2	donor2	recipient_baseline_donor2	5449 26/7/25	26/7/25		no	
+RFMT023	5451	RFMT023_5451	recipient_d2	Recipient D2	donor2	recipient_post_donor2	"5451 ??? (24/7/25 ""2/2"")"	???; 24/7/25		no	
+RFMT023	5455	RFMT023_5455	recipient_d7	Recipient D7	donor2	recipient_post_donor2	"5455 4/8/25 ""D9"""	"4/8/25; ""D9"""		no	
+RFMT023	5454	RFMT023_5454	recipient_d2	Recipient D2	donor2	recipient_post_donor2	5454 28/07/2025 *	28/07/2025; *		no	
+RFMT024	5444	RFMT024_5444	donor1	DNR#1	donor1	donor	5444 25/7/25	25/7/25		no	
+RFMT024	5446	RFMT024_5446	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5446 24/7/25	24/7/25		no	
+RFMT024	5445	RFMT024_5445	recipient_d2	Recipient D2	donor2	recipient_post_donor2	5445 27/7/25	27/7/25		no	
+RFMT024	5447	RFMT024_5447	recipient_d5	Recipient D5	donor2	recipient_post_donor2	5447 30/7/25	30/7/25		no	
+RFMT024	5448	RFMT024_5448	recipient_d7	Recipient D7	donor2	recipient_post_donor2	5448 1/8/25	1/8/25		no	
+RFMT026	5439	RFMT026_5439	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5439 29/8/25	29/8/25		no	
+RFMT026	5441	RFMT026_5441	recipient_pre_donor2	Recipient pre-DNR#2	donor2	recipient_baseline_donor2	5441 1/9/25	1/9/25		no	
+RFMT026	5440	RFMT026_5440	recipient_d2	Recipient D2	donor2	recipient_post_donor2	5440 4/9/25	4/9/25		no	
+RFMT026	5442	RFMT026_5442	recipient_d5	Recipient D5	donor2	recipient_post_donor2	5442 8/9/25	8/9/25		no	
+RFMT026	5443	RFMT026_5443	recipient_d7	Recipient D7	donor2	recipient_post_donor2	5443 9/9/25	9/9/25		no	
+RFMT027	5434	RFMT027_5434	donor1	DNR#1	donor1	donor	5434 9/9/25	9/9/25		no	
+RFMT027	5436	RFMT027_5436	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5436 9/9/25	9/9/25		no	
+RFMT027	5435	RFMT027_5435	donor2	DNR#2	donor2	donor	5435 12/9/25	12/9/25		no	
+RFMT027	5437	RFMT027_5437	recipient_pre_donor2	Recipient pre-DNR#2	donor2	recipient_baseline_donor2	5437 11/9/25	11/9/25		no	
+RFMT027	5438	RFMT027_5438	recipient_d2	Recipient D2	donor2	recipient_post_donor2	5438 14/9/25	14/9/25		no	
+RFMT028	5482	RFMT028_5482	donor1	DNR#1	donor1	donor	5482 23/10/25	23/10/25		no	
+RFMT028	5480	RFMT028_5480	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5480 22/10/25	22/10/25		no	
+RFMT028	5481	RFMT028_5481	donor2	DNR#2	donor2	donor	5481 25/10/25	25/10/25		no	
+RFMT028	5478	RFMT028_5478	recipient_pre_donor2	Recipient pre-DNR#2	donor2	recipient_baseline_donor2	5478 25/10/25	25/10/25		no	
+RFMT028	5483	RFMT028_5483	recipient_d2	Recipient D2	donor2	recipient_post_donor2	5483 27/10/25	27/10/25		no	
+RFMT028	5479	RFMT028_5479	recipient_d5	Recipient D5	donor2	recipient_post_donor2	5479 30/10/25	30/10/25		no	
+RFMT028	5477	RFMT028_5477	recipient_d7	Recipient D7	donor2	recipient_post_donor2	5477 1/11/25	1/11/25		no	
+RFMT029	5474	RFMT029_5474	donor1	DNR#1	donor1	donor	5474 22/10/25	22/10/25		no	
+RFMT029	5470	RFMT029_5470	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5470 22/10/25	22/10/25		no	
+RFMT029	5472	RFMT029_5472	donor2	DNR#2	donor2	donor	5472 25/10/25	25/10/25		no	
+RFMT029	5471	RFMT029_5471	recipient_pre_donor2	Recipient pre-DNR#2	donor2	recipient_baseline_donor2	5471 25/10/25	25/10/25		no	
+RFMT029	5473	RFMT029_5473	recipient_d5	Recipient D5	donor2	recipient_post_donor2	5473 30/10/25	30/10/25		no	
+RFMT029	5475	RFMT029_5475	recipient_d7	Recipient D7	donor2	recipient_post_donor2	5475 1/11/25	1/11/25		no	
+RFMT029	5476	RFMT029_5476	recipient_pre_donor2	Recipient pre-DNR#2	donor2	recipient_baseline_donor2	5476 24/10/25	24/10/25		no	
+RFMT031	5464	RFMT031_5464	donor1	DNR#1	donor1	donor	5464 21/11/25	21/11/25		no	
+RFMT031	5467	RFMT031_5467	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5467 21/11/25	21/11/25		no	
+RFMT031	5466	RFMT031_5466	donor2	DNR#2	donor2	donor	5466 23/11/25	23/11/25		yes	donor2;recipient_d2
+RFMT031	5465	RFMT031_5465	recipient_pre_donor2	Recipient pre-DNR#2	donor2	recipient_baseline_donor2	5465 23/11/25	23/11/25		no	
+RFMT031	5466	RFMT031_5466	recipient_d2	Recipient D2	donor2	recipient_post_donor2	5466 25/11/25	25/11/25		yes	donor2;recipient_d2
+RFMT031	5484	RFMT031_5484	recipient_d7	Recipient D7	donor2	recipient_post_donor2	5484 1/12/25	1/12/25		no	
+RFMT031	5469	RFMT031_5469	recipient_d0	Recipient (D0) pre-DNR#1	donor1	recipient_baseline_donor1	5469 21/11/25 *	21/11/25; *		no	

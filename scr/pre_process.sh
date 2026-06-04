@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=clean
-#SBATCH --array=1-30%15
+#SBATCH --array=1-300
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=3-00:00:00
